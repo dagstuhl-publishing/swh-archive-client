@@ -1,1 +1,1 @@
-# swh-api-client
+# The Dagstuhl SoftwareHeritage API client
