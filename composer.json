@@ -28,7 +28,7 @@
     "php": "^8.1",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.9",
-    "nesbot/carbon": "^2.7",
+    "nesbot/carbon": "^2||^3",
     "kevinrob/guzzle-cache-middleware": "^5.1",
     "league/flysystem": "^3.28"
   },
