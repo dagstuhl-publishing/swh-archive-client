@@ -2,9 +2,12 @@
 
 namespace Dagstuhl\SwhArchiveClient\SwhObjects;
 
+use Dagstuhl\SwhArchiveClient\ApiClient\SwhWebApiClient;
+
 class Context
 {
-    public const SWH_ID_TEMPLATES = [
+    const ENDPOINT_RESOLVE = 'resolve/{swh_id}/';
+    const SWH_ID_TEMPLATES = [
         'Directory-Context' => '{ DIR_ID };origin={ ORIGIN_URL };visit={ SNP_ID };anchor={ REV_ID };path={ PATH }',
         'Content-Context' =>   '{ CNT_ID };origin={ ORIGIN_URL };visit={ SNP_ID };anchor={ REV_ID };path={ PATH }',
     ];
@@ -92,5 +95,23 @@ class Context
         }
 
         return $context;
+    }
+
+    public static function getBrowseUrl(string $swhIdentifier): ?string
+    {
+        $url = str_replace('{swh_id}', $swhIdentifier, self::ENDPOINT_RESOLVE);
+        $response = SwhWebApiClient::getCurrent()->getResponse('GET', $url);
+
+        if ($response !== null && $response->successful()) {
+            $apiData = $response->json();
+            return $apiData['browse_url'] ?? null;
+        }
+
+        return null;
+    }
+
+    public static function resolves(string $swhIdentifier): bool
+    {
+        return static::getBrowseUrl($swhIdentifier) !== null;
     }
 }

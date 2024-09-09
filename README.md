@@ -1,4 +1,6 @@
-# dagstuhl/swh-archive-client: A SoftwareHeritage web API client in php
+# dagstuhl/swh-archive-client
+
+A SoftwareHeritage web API client in php
 
 This project provides a php wrapper around the [SoftwareHeritage web API](https://archive.softwareheritage.org/api/).
 It is used by Dagstuhl Publishing to integrate automatic archiving of software projects by authors into its publication workflow.
@@ -6,7 +8,7 @@ It is used by Dagstuhl Publishing to integrate automatic archiving of software p
 At https://github.com/dagstuhl-publishing/swh-deposit-client, we also provide a php client for the [SoftwareHeritage Deposit API](https://github.com/dagstuhl-publishing/swh-deposit-client).  
 
 
-### Installation:
+## Installation
 ```shell
 composer require dagstuhl/swh-archive-client
 ```
@@ -31,7 +33,7 @@ In a non-laravel environment just implement a global config function `config` in
 **Important note**: To reduce traffic, requests concerning already archived repositories are cached, see below.
 
 
-### Code Examples:
+## Code Examples
 
 ### 1) Browsing the archive
 
