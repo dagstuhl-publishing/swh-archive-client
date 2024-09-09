@@ -2,12 +2,17 @@
 
 namespace Dagstuhl\SwhArchiveClient\ApiClient;
 
+use Carbon\Carbon;
+use Dagstuhl\SwhArchiveClient\ApiClient\DefaultConfig\CacheStorage;
 use Dagstuhl\SwhArchiveClient\ApiClient\DefaultConfig\Config;
 use Dagstuhl\SwhArchiveClient\ApiClient\Internal\SwhWebApiResource;
 use Dagstuhl\SwhArchiveClient\ApiClient\Internal\SwhWebApiResponse;
+use Dagstuhl\SwhArchiveClient\SwhObjects\Counter;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use Throwable;
 
 class SwhWebApiClient
 {
@@ -34,13 +39,17 @@ class SwhWebApiClient
 
         $clientOptions = $clientOptions ?? Config::getDefaultOptions();
         $clientOptions['base_uri'] = $this->apiUrl;
+
         $this->client = new Client($clientOptions);
         $this->clientOptions = $clientOptions;
 
         $headers = [
-            'Authorization' => 'Bearer ' . $token,
-            'Accept'        => 'application/json',
+            'Accept' => 'application/json'
         ];
+
+        if ($token !== null) {
+            $headers['Authorization'] = 'Bearer ' . $token;
+        }
 
         $this->requestOptions = [
             'headers' => $headers,
@@ -51,7 +60,7 @@ class SwhWebApiClient
     {
         if (static::$currentClient === null) {
             static::$currentClient = new static(
-                config('swh.web-api.api-url'),
+                config('swh.web-api.url'),
                 config('swh.web-api.token'),
                 Config::getDefaultOptions()
             );
@@ -98,5 +107,41 @@ class SwhWebApiClient
     public function getLastResponse(): SwhWebApiResponse|null
     {
         return $this->lastResponse;
+    }
+
+    public function getRateLimit($ownRequest = true): ?array
+    {
+        $headers = null;
+
+        if ($ownRequest && $this->lastResponse === null) {
+            $dummyRequest = Counter::getCurrent();
+        }
+
+        if ($this->lastResponse !== null) {
+            $headers = [];
+            foreach($this->lastResponse->response->getHeaders() as $key=>$value) {
+                if (str_starts_with($key, 'X-RateLimit')) {
+                    $headers[$key] = $value;
+                }
+            }
+        }
+
+        return $headers;
+    }
+
+    public function clearCache(string $dateString = null, string $cacheDirectory = null): void
+    {
+        $localFileSystem = new LocalFilesystemAdapter($cacheDirectory ?? config('swh.web-api.cache-folder'));
+
+        try {
+            foreach($localFileSystem->listContents('/', 1) as $content) {
+                if ($dateString === null || Carbon::createFromTimestampUTC($content->lastModified())->toDateString() === $dateString) {
+                    if ($content->type() === 'file') {
+                       $localFileSystem->delete($content->path());
+                    }
+                }
+            }
+        }
+        catch (Throwable $ex) { }
     }
 }

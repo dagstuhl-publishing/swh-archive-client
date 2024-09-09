@@ -9,6 +9,7 @@ class CacheRequestMatcher implements RequestMatcherInterface
 {
     public function matches(RequestInterface $request): bool
     {
-        return !str_contains($request->getUri(), '/origin/');
+        $uri = $request->getUri();
+        return !str_contains($uri, '/origin/') && !str_contains($uri, '/stat/counters');
     }
 }

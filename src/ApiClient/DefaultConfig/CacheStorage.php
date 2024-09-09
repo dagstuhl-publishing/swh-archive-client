@@ -10,7 +10,7 @@ class CacheStorage
 {
     public static function getDefault(string $cacheDirectory = null): CacheStorageInterface
     {
-        $cacheDirectory = config('swh.web-api.cache-folder') ?? $cacheDirectory;
+        $cacheDirectory = $cacheDirectory ?? config('swh.web-api.cache-folder');
 
         return new FlysystemStorage(
             new LocalFilesystemAdapter($cacheDirectory)

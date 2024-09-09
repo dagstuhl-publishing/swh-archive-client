@@ -4,6 +4,7 @@ namespace Dagstuhl\SwhArchiveClient\SwhObjects;
 
 use Dagstuhl\SwhArchiveClient\ApiClient\Internal\FillFromApiData;
 use Dagstuhl\SwhArchiveClient\ApiClient\Internal\SwhWebApiResource;
+use Dagstuhl\SwhArchiveClient\ApiClient\SwhWebApiClient;
 
 class Revision extends SwhWebApiResource
 {
