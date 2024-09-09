@@ -21,7 +21,7 @@
     "SoftwareHeritage",
     "software archiving"
   ],
-  "license": "GPL-2.0-or-later",
+  "license": "MIT",
   "name": "dagstuhl/swh-archive-client",
   "readme": "README.md",
   "require": {
