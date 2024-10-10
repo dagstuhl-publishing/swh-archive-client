@@ -33,6 +33,6 @@
     "league/flysystem": "^3.28"
   },
   "type": "library",
-  "time": "2024-09-06",
-  "version": "1.0"
+  "time": "2024-10-10",
+  "version": "1.1"
 }
