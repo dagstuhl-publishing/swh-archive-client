@@ -64,9 +64,9 @@ class SwhWebApiClient
                 config('swh.web-api.token'),
                 Config::getDefaultOptions()
             );
-        }
 
-        SwhWebApiResource::setApiClient(static::$currentClient);
+            SwhWebApiResource::setApiClient(static::$currentClient);
+        }
 
         return static::$currentClient;
     }

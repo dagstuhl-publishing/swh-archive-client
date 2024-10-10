@@ -21,16 +21,15 @@ return [
     'web-api' => [
         'token' => env('SWH_WEB_API_TOKEN'),
         'url' => env('SWH_WEB_API_URL'),
-        'cache-folder' => env('SWH_WEB_API_CACHE_FOLDER'), // absolute path to cache folder
+        // optional: caching of get requests for objects in the archive 
+        'cache-folder' => env('SWH_WEB_API_CACHE_FOLDER'), // return null to disable cache
         'cache-ttl' => env('SWH_WEB_API_CACHE_TTL'),
     ]
 ];
 ```
-Based on that configuration, a default client is initialized and used whenever you request a SwhObject.
+Based on that configuration, a default client is implicitly initialized and used whenever you request a SwhObject.
 In a non-laravel environment just implement a global config function `config` in such a way that
 `config('swh.web-api.token')` is your token, `config('swh.web-api.url')` is the api url, and so on. 
-
-**Important note**: To reduce traffic, requests concerning already archived repositories are cached, see below.
 
 
 ## Code Examples

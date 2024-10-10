@@ -11,7 +11,10 @@ class Config
     {
         $handlerStack = HandlerStack::create();
         $handlerStack->push(RetryMiddleware::getDefault(), 'retry');
-        $handlerStack->push(new CacheMiddleware(CacheStrategy::getDefault()), 'cache');
+
+        if (!empty(config('swh.web-api.cache-folder'))) {
+            $handlerStack->push(new CacheMiddleware(CacheStrategy::getDefault()), 'cache');
+        }
 
         return [
             'debug' => false,
