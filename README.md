@@ -1,3 +1,6 @@
+[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:75cfbf915642bd5fe18b0a357fa098e99470c19e/)](https://archive.softwareheritage.org/swh:1:dir:75cfbf915642bd5fe18b0a357fa098e99470c19e;origin=https://github.com/dagstuhl-publishing/swh-archive-client;visit=swh:1:snp:60901c83213678f92c9c57155f46ceecc7acebdd;anchor=swh:1:rev:a43b6e6b0efe19bd05de255256fb4c57965a9bcb)
+
+
 # dagstuhl/swh-archive-client
 
 A SoftwareHeritage web API client in php
