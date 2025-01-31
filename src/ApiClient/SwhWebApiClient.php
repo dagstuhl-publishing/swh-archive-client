@@ -90,8 +90,11 @@ class SwhWebApiClient
             $response = $this->client->request($method,$url, $options ?? $this->requestOptions);
             $response = new SwhWebApiResponse($response);
             $this->lastResponse = $response;
+            if ($response->status === 403) {
+                throw new Exception('Unauthorized - Maybe your API token has expired?');
+            }
         }
-        catch (GuzzleException $ex) {
+        catch (Exception $ex) {
             $this->exception = $ex;
             return null;
         }
